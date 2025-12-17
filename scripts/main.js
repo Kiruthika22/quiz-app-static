@@ -33,11 +33,23 @@ const quizData = [
 
 let currentQuestion = 0;
 let score = 0;
+let studName = "";
 
 const questionEl = document.getElementById("question");
 const optionsEl = document.getElementById("options");
 const nextBtn = document.getElementById("nextBtn");
 const resultEl = document.getElementById("result");
+const form = document.getElementById("form-container");
+const quiz = document.getElementById("quiz");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  console.log(e.target[0].value);
+  studName = e.target[0].value;
+
+  form.style.display = "none";
+  quiz.style.display = "block";
+});
 
 function loadQuestion() {
   const q = quizData[currentQuestion];
@@ -89,20 +101,23 @@ function showResult() {
   questionEl.style.display = "none";
   optionsEl.style.display = "none";
   nextBtn.style.display = "none";
-  const message = `You scored ${score} out of ${quizData.length}!`;
+  const message = `${studName} scored ${score} out of ${quizData.length}!`;
   resultEl.innerText = message;
 
-  /* emailjs
-    .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-      result: message,
-      to_email: "receiver@example.com",
+  // Send email with results
+  emailjs
+    .send("service_gcs3n5c", "template_6my8cbs", {
+      message: message,
+      to_email: "kiruthika22061998@gmail.com",
     })
     .then(() => {
       console.log("Email sent successfully");
+      resultEl.innerText += "\nEmail sent with your results!";
     })
     .catch((err) => {
       console.error("Email failed:", err);
-    }); */
+      resultEl.innerText += "\nFailed to send email.";
+    });
 }
 
 loadQuestion();
