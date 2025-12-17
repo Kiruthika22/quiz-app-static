@@ -107,6 +107,7 @@ function showResult() {
   // Send email with results
   emailjs
     .send("service_gcs3n5c", "template_6my8cbs", {
+      title: "Quiz Result",
       message: message,
       to_email: "kiruthika22061998@gmail.com",
     })
